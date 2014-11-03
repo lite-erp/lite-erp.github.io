@@ -27,11 +27,18 @@
         
     </style>
     <script>
+var _hmt = _hmt || [];
         $(function(){
                  $('.img').jqthumb({
                     width:'100%',
                      height:'100%'
                  });
+            
+              var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?71005691a242bcfc49f756120558b98a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+            
         });  
     </script>
   </head>
@@ -59,11 +66,6 @@
         </div>
         <div id="content-right"></div>
     </div>
-
-<script type="text/javascript">
-var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F71005691a242bcfc49f756120558b98a' type='text/javascript'%3E%3C/script%3E"));
-</script>
 
   </body>
 </html>
