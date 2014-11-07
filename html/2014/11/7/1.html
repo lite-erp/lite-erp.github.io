@@ -1,0 +1,416 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>ERP系统|ERP软件|软件定制|软件开发|使用AngularJS/$controllerProvider and RequireJS动态加载Controllers和Views</title>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <meta name="description" content="Lite ERP是中小企业一体化ERP解决方案,使用Java语言开发,提供各种API接口,与各种系统有更好的兼容性,是作者多年企业应用管理系统开发经验的总结,提升中小企业的竞争力,可以按照客户要求,进行软件定制化开发."/>
+    <meta name="keywords" content="二维码,软件开发,软件定制,开源软件,ERP,用友,Lite ERP,ERP系统,ERP软件,AngularJS,RequireJS" />
+    <link href="http://libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/lib/highlight/styles/idea.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="http://libs.baidu.com/jquery/1.8.3/jquery.min.js"></script>
+    <script src="/javascripts/jqthumb.min.js"></script>
+    <script src="/lib/highlight/highlight.pack.js"></script>
+    <style>
+          #content p{
+            font-size: 14px;
+              color: #333;
+          }
+         #content p h2{
+            font-size: 24px;
+          }
+         #content p h3{
+            font-size: 18px;
+          }
+        
+        
+    </style>
+    <script>
+var _hmt = _hmt || [];
+        $(function(){
+                 $('.img').jqthumb({
+                    width:'100%',
+                     height:'100%'
+                 });
+            
+              var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?71005691a242bcfc49f756120558b98a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+            
+        });  
+    </script>
+  </head>
+  <body>
+
+    <div id="header">
+        <a href="#" id="liteerp">LiteERP解决方案</a>
+        <ul id="menu">
+            <li><a href="/index.html#index">首页</a></li>
+            <li class="active"><a href="/index.html#articles">文章</a></li>
+            <li><a href="/index.html#download">下载</a></li>
+            <li><a href="/index.html#about">关于</a></li>
+        </ul>  
+    </div>
+    <div id="content">
+        <div id="content-left">
+            <div><a class="a-noclass"><h1>使用AngularJS/$controllerProvider and RequireJS动态加载Controllers和Views(翻译)</h1></a></div>
+            <div><span class="article-return"><a href="/html/news.html">返回</a></span><span class="article-writer">作者:Dan Wahlin</span><span class="article-link">原文地址:http://weblogs.asp.net/dwahlin/dynamically-loading-controllers-and-views-with-angularjs-and-requirejs</span></div>
+            <hr>
+            <div>
+                
+                <p>
+                    本例代码都可以通过以下地址访问:<a href="https://github.com/DanWahlin/CustomerManager">https://github.com/DanWahlin/CustomerManager</a>.
+                </p>
+                
+                <p>
+                    AngularJS通过<strong> $routeProvider</strong>对象提供一种简单的方式,将视图(view)与控制器(controller)绑定在一起,在运行时加载所有的内容.典型的路由代码是放在模块(module)的config()函数中的,并且看起来与下边的代码相仿:
+                </p>
+                <p>
+                    <pre>
+                        <code class="javascript">
+                            $routeProvider
+                                 .when('/customers',
+                                    {
+                                        controller: 'CustomersController',
+                                        templateUrl: '/app/views/customers.html'
+                                    })
+                                .when('/customerorders/:customerID',
+                                    {
+                                        controller: 'CustomerOrdersController',
+                                        templateUrl: '/app/views/customerOrders.html'
+                                    })
+                                .when('/orders',
+                                    {
+                                        controller: 'OrdersController',
+                                        templateUrl: '/app/views/orders.html'
+                                    })
+                                .otherwise({ redirectTo: '/customers' });
+                        </code>
+                    </pre>
+                </p>
+            
+                <p>
+                    上边的代码要能正常运行,需要先加载控制器的代码.但是如果你的应用有很多的控制器与视图,期望在运行时动态加载,那么该怎么处理呢?一种解决方式是在每个路由(route)定义一个<strong>resolve</strong>属性,并返回1个promise对象.这个函数可以实现运态的加载包含目标控制器的脚本,并且在加载完成后,删除promise对象.使用resolve属性的例子如下:
+                    
+                </p>
+            
+            <p>
+                <pre>
+                    <code class="javascript">
+                        $routeProvider
+                        .when('/customers',
+                            {
+                                templateUrl: '/app/views/customers.html',
+                                resolve: resolveController('/app/controllers/customersController.js')
+                            });
+                    </code>
+                </pre>
+            </p>
+            
+        <p>
+            这种方式在不需要先将所有的控制器加载完成后情况下,能够运行良好,但是这种代码结构组织方式感觉不好,至少我是有这种感觉.尤其是项目中有很多路由时,我个人非常不喜欢定义两个路径的方式.有些框架使用的是约定优于配置,如果你使用过这些框架,你就可以理解,我们可以通过给控制器与视图命名来精简上边的代码.使用约定配置,可以帮助我们简化控制器代码和后期的维护工作.本次我要演示的代码结构方式如下:
+        </p>
+        <p>
+            <pre>
+                <code class="javascript">
+                    $routeProvider
+                        .when('/customers', route.resolve('Customers'))
+                        .when('/customerorders/:customerID', route.resolve('CustomerOrders'))
+                        .when('/orders', route.resolve('Orders'))
+                        .otherwise({ redirectTo: '/customers' });
+                </code>
+            </pre>
+        </p>
+      
+        <p>
+            从上边的代码,我们可以看到,route.resolve()函数有一个参数.在函数运行时,将会根据约定配置,自动创建视图与控制器的路径,并运态的加载相应的文件.你可以通过<a href="https://github.com/DanWahlin/CustomerManager">https://github.com/DanWahlin/CustomerManager</a>获取项目源码.下面,让我们看看它是怎么实现的.
+        </p>
+      <p>
+        <h2>动态加载控制器</h2>
+      </p>
+    <p>
+        下图显示了项目中用到的简化的路由和需要动态加载的控制器.RequireJS被用来动态加载控制器js文件,并且创建应用的主模块,从而在控制器加载后能够正确的运行.
+    </p>
+    <p>
+        <img src="/upload/20141107001.png" width="561px" height="765px">
+    </p>
+    <p>
+        Here’s how it works:
+
+A file named main.js defines custom scripts that will be loaded using RequireJS. I originally defined 3rd party libraries such as AngularJS in main.js as well but decided there simply wasn’t enough benefit over loading them at the bottom of the initial page using a <script> tag and pulled them out as a result. Only custom scripts are added into main.js in the sample application.
+The routeResolver.js script creates an AngularJS provider. It’s loaded by RequireJS and used in app.js within the config() function to define routes and resolve them dynamically at runtime.
+The app.js file is loaded by RequireJS. It defines the main AngularJS module used in the application as well as the config for the module. The config section accesses compiler providers (such as $controllerProvider) needed to dynamically load controllers, directives, etc. and also uses the routeResolver to define views and controllers that need to be dynamically loaded (see diagram above). Views and routes are defined using a single name. For example, route.resolve(“Customers”) will cause customers.html to be loaded from the views folder and customersController.js from the controllers folder. 
+Each controller is passed the AngularJS module created in app.js by RequireJS. This allows the controllers to dynamically register themselves with AngularJS using a $controllerProvider behind the scenes.
+At runtime the routes defined in app.js are dynamically resolved using the routeResolver provider that is injected into the config() function located in app.js.
+Let’s break down each of the files one by one now that you’ve seen how they integrate with each other.
+
+ 
+
+Defining Scripts in main.js
+RequireJS is used to load all of the custom scripts used in the sample application. It’s useful to ensure dependencies are loaded in the proper order and also helps dynamically loaded controllers, directives and other AngularJS objects easily access the application’s module so that they can be properly registered. An example of the main.js file used to configure RequireJS is shown next. All third party scripts are loaded directly in the shell page (index.html) rather than using RequireJS. Services used across multiple controllers are loaded upfront as well as some controllers needed immediately. However, the services could certainly be loaded dynamically if desired with a little more work (that feature isn’t currently implemented).
+
+ 
+
+require.config({
+    baseUrl: '/app',
+    urlArgs: 'v=1.0'
+});
+
+require(
+    [
+        'app',
+        'services/routeResolver',
+        'services/config',
+        'services/customersBreezeService',
+        'services/customersService',
+        'services/dataService',
+        'controllers/navbarController',
+        'controllers/orderChildController'
+    ],
+    function () {
+        angular.bootstrap(document, ['customersApp']);
+    });
+
+Since the app.js file is loaded dynamically (it defines the main application module) an ng-app=”customersApp” attribute isn’t hard-coded into the shell page that initially loads as with standard AngularJS applications. Instead, it’s added at runtime by calling angular.bootstrap().
+
+ 
+
+The routeResolver.js File
+The routeResolver.js file handles creating an AngularJS module and provider that can dynamically load views and controllers. AngularJS already comes with built-in support for loading views dynamically and with a little more work controllers can be loaded dynamically as well. Loading controller scripts can be done by assigning the resolve property mentioned earlier to a function that handles loading the controller. What’s unique about routeResolver is that it doesn’t accept hard-coded paths to the target view or controller. Instead, you define a base name such as “Customers” and the resolver will generate the path to the appropriate view and controller based on a standard convention.
+
+Here’s the complete code for the routeResolver provider as well as a routeConfig object used to configure view and controller directories. The code starts by defining a new AngularJS module named routeResolverServices. A provider was chosen (as opposed to a service or factory) because the routeResolver needs to be injected into the config() function of a given application’s module (in app.js for example). The config() function uses the routeResolver to define the routes based on the conventions mentioned earlier.
+
+ 
+
+'use strict';
+
+define([], function () {
+
+    var routeResolver = function () {
+
+        this.$get = function () {
+            return this;
+        };
+
+        this.routeConfig = function () {
+            var viewsDirectory = '/app/views/',
+                controllersDirectory = '/app/controllers/',
+
+            setBaseDirectories = function (viewsDir, controllersDir) {
+                viewsDirectory = viewsDir;
+                controllersDirectory = controllersDir;
+            },
+
+            getViewsDirectory = function () {
+                return viewsDirectory;
+            },
+
+            getControllersDirectory = function () {
+                return controllersDirectory;
+            };
+
+            return {
+                setBaseDirectories: setBaseDirectories,
+                getControllersDirectory: getControllersDirectory,
+                getViewsDirectory: getViewsDirectory
+            };
+        }();
+
+        this.route = function (routeConfig) {
+
+            var resolve = function (baseName, path, secure) {
+                if (!path) path = '';
+
+                var routeDef = {};
+                routeDef.templateUrl = routeConfig.getViewsDirectory() + path + baseName + '.html';
+                routeDef.controller = baseName + 'Controller';
+                routeDef.secure = (secure) ? secure : false;
+                routeDef.resolve = {
+                    load: ['$q', '$rootScope', function ($q, $rootScope) {
+                        var dependencies = [routeConfig.getControllersDirectory() + path + baseName + 'Controller.js'];
+                        return resolveDependencies($q, $rootScope, dependencies);
+                    }]
+                };
+
+                return routeDef;
+            },
+
+            resolveDependencies = function ($q, $rootScope, dependencies) {
+                var defer = $q.defer();
+                require(dependencies, function () {
+                    defer.resolve();
+                    $rootScope.$apply()
+                });
+
+                return defer.promise;
+            };
+
+            return {
+                resolve: resolve
+            }
+        }(this.routeConfig);
+
+    };
+
+    var servicesApp = angular.module('routeResolverServices', []);
+
+    //Must be a provider since it will be injected into module.config()    
+    servicesApp.provider('routeResolver', routeResolver);
+});
+
+Looking through the code you can see that a routeConfig object is defined that allows the views and controllers directory to be set using code similar to the following (this code goes in the module.config() function that’ll be shown later):
+
+ 
+
+//Change default views and controllers directory using the following:
+routeResolverProvider.routeConfig.setBaseDirectories('/app/myViews', '/app/myControllers');
+
+The routeConfig object defaults to the following directories:
+
+Views:              /app/views
+
+Controllers:    /app/controllers 
+
+
+In addition to routeConfig you’ll also find a route object with a resolve() function that handles dynamically loading controller scripts. It handles setting the templateUrl, controller name, any folders where controllers should be located, and security for a given route. It also takes advantage of AngularJS’s resolve property to dynamically load the target controller script using RequireJS. The resolve() function shown above delegates loading controller scripts to another function named resolveDependencies() which handles getting a deferral, returning a promise, and resolving the deferral once the controller script loads.
+
+The path parameter in resolve() is optional but can be used to pass a subfolder in cases where controllers aren’t located in the root controllers folder. This way you can pass in a variety of paths which is useful in large applications where controllers are grouped into subfolders. An example of defining a route that has a subfolder for the controller is shown in the Defining Routes in app.js section below.
+
+The secure property (see routeDef.secure above) can be used to mark if a route requires security/authentication. This is a primitive implementation but could easily be extended to check for any roles passed down to the client from the server. Keep in mind that it’s only a client-side check. A server-side security check is ALWAYS required when any secured resource is called since a hacker could easily tweak the JavaScript data.
+
+
+Defining Routes in app.js 
+
+The app.js file defines the application’s main module and also handles configuring routes. It’s wrapped with a define() call to RequireJS to ensure that the routeResolver is loaded and available. The customersApp module defined in app.js requires routeResolverServices.
+
+The config() function has several different providers injected into it including the routeResolver provider (note that the actual name of the provider is routeResolver but that you must add “Provider” on the end of the name for it to work properly when injecting it). The AngularJS providers that are injected into config() are used to dynamically register controllers, directives, filters and more after a given script is dynamically loaded.
+
+Notice that within the config() function an object literal is assigned to app.register (app represents the application’s module). The object literal contains properties that can be used to dynamically register a controller and other AngularJS objects that are downloaded on-the-fly (thanks to Mateusz Bilski for the initial code that started me thinking about this more). You’ll learn more about that process in a moment. Application routes are defined using the routeResolver provider’s route.resolve() function which accepts the base name to use to lookup views and controllers as mentioned earlier based on conventions.
+
+ 
+
+'use strict';
+
+define(['services/routeResolver'], function () {
+
+    var app = angular.module('customersApp', ['routeResolverServices']);
+
+    app.config(['$routeProvider', 'routeResolverProvider', '$controllerProvider', 
+                '$compileProvider', '$filterProvider', '$provide',
+        function ($routeProvider, routeResolverProvider, $controllerProvider, 
+                  $compileProvider, $filterProvider, $provide) {
+
+            //Change default views and controllers directory using the following:
+            //routeResolverProvider.routeConfig.setBaseDirectories('/app/views', '/app/controllers');
+
+            app.register =
+            {
+                controller: $controllerProvider.register,
+                directive: $compileProvider.directive,
+                filter: $filterProvider.register,
+                factory: $provide.factory,
+                service: $provide.service
+            };
+
+            //Define routes - controllers will be loaded dynamically
+            var route = routeResolverProvider.route;
+
+            $routeProvider
+                .when('/customers', route.resolve('Customers'))
+                .when('/customerorders/:customerID', route.resolve('CustomerOrders'))
+                .when('/orders', route.resolve('Orders'))
+                .otherwise({ redirectTo: '/customers' });
+
+                }]);
+
+            return app;
+});
+ 
+
+
+Here’s an example of supplying custom subfolders for controllers in situations where they don’t live in the root “controllers” folder. The code also shows how a route can be secured by passing true in for the 3rd parameter:
+
+
+
+$routeProvider
+    .when('/customers', route.resolve('Customers', 'customers/'))
+    .when('/customerorders/:customerId', route.resolve('CustomerOrders', 'customers/'))
+    .when('/customeredit/:customerId', route.resolve('CustomerEdit', 'customers/', true))
+    .when('/orders', route.resolve('Orders', 'orders/'))
+    .when('/about', route.resolve('About'))
+    .when('/login/:redirect*?', route.resolve('Login'))
+    .otherwise({ redirectTo: '/customers' });
+
+Note that the customeredit route definition passes a value of true into the resolve() function. That will mark the route as requiring authentication (something discussed earlier).
+
+To check if a route has the secure property set to true and redirect to a login view the following code can be used (I normally put this in the app.js file):
+
+
+app.run(['$q', 'use$q', '$rootScope', '$location', 'authService',
+    function ($q, use$q, $rootScope, $location, authService) {
+
+        ...
+            
+        //Client-side security. Server-side framework MUST add it's 
+        //own security as well since client-based security is easily hacked
+        $rootScope.$on("$routeChangeStart", function (event, next, current) {
+            if (next && next.$$route && next.$$route.secure) {
+                if (!authService.user.isAuthenticated) {
+                    authService.redirectToLogin();
+                }
+            }
+        });
+
+}]);
+ 
+
+Notice that the secure property added into a given route is checked using the next object passed into the $routeChangeStart event. If security is required (which happens when secure is true) and the user hasn’t already logged in they’ll be redirected to a login page. The authService object handles that in this particular case – a link to a full sample application can be found at the end of the post. I want to re-emphasize that this is only to allow for quick client-side redirects where a client tries to get to a secured resource but hasn’t logged in yet. Always, always, always revalidate credentials on the server-side for any secured resources. You’ve been warned (multiple times)!  :-)
+
+
+ 
+
+Defining Controllers
+ 
+
+Controllers in the application rely on RequireJS to access the object representing the application’s module and then access the register property shown earlier to register a controller script with AngularJS. This type of registration is required since using the standard angular.module(“ModuleName”).controller() code won’t work properly with dynamically loaded controller scripts (at least at the current time). An example of a controller named customersController.js is shown next. Notice that it uses RequireJS’s define() function to get to the app object and then uses it to register the controller. The app.register.controller() function points to AngularJS’s $controllerProvider.register() function behind the scenes as shown earlier with app.js. All of the controllers in the application follow this pattern.
+
+ 
+
+'use strict';
+
+define(['app'], function (app) {
+
+    //This controller retrieves data from the customersService and associates it with the $scope
+    //The $scope is ultimately bound to the customers view due to convention followed by the routeResolver
+    app.register.controller('CustomersController', ['$scope', 'config', 'dataService', 
+     function ($scope, config, dataService) {
+
+        //Controller code goes here    
+     }]);
+});
+ 
+
+What about Directives, Filters and other Types?
+The current routeResolver implementation only supports dynamically loading controllers. However, all of the necessary plumbing is in place to support the dynamic loading of directive, filter, service/factory, and other scripts.
+
+
+Summary
+
+If you’re new to AngularJS this may seem like a lot of code to perform a simple task like dynamically downloading a controller script. However, once you get the main.js and app.js scripts in place the rest takes care of itself if you follow the pattern outlined above for defining controllers.
+
+The word on the street is that AngularJS will eventually provide a built-in way to dynamically load controllers and other scripts. I’ll certainly welcome that feature when it’s available but until then the routeResolver and RequireJS functionality shown here gets the job done. Although I’ve been through several iterations and variations of this code I expect it’ll change as I use it more and get feedback. Access the sample (work in progress) project that shows all of this in action at https://github.com/DanWahlin/CustomerManager.
+    </p>
+      
+                
+                
+            </div>
+        </div>
+        <div id="content-right"></div>
+    </div>
+
+  </body>
+</html> 
