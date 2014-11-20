@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>ERP系统|ERP软件|软件开发|软件定制|Java面试700问（一）</title>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <meta name="description" content="Lite ERP是中小企业一体化ERP解决方案,使用Java语言开发,提供各种API接口,与各种系统有更好的兼容性,是作者多年企业应用管理系统开发经验的总结,提升中小企业的竞争力,可以按照客户要求,进行软件定制化开发."/>
+    <meta name="keywords" content="Java,面试,JAVA面试,软件开发,软件定制,开源软件,ERP,用友,Lite ERP,ERP系统,ERP软件" />
+    <link href="http://libs.baidu.com/fontawesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/styles.css">
+    <script src="http://libs.baidu.com/jquery/1.8.3/jquery.min.js"></script>
+    <script src="/javascripts/jqthumb.min.js"></script>
+    <style>
+          #content p{
+            font-size: 14px;
+              color: #333;
+          }
+         #content p h2{
+            font-size: 24px;
+          }
+         #content p h3{
+            font-size: 18px;
+          }
+        
+        
+    </style>
+    <script>
+var _hmt = _hmt || [];
+        $(function(){
+                 $('.img').jqthumb({
+                    width:'100%',
+                     height:'100%'
+                 });
+            
+              var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?71005691a242bcfc49f756120558b98a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+            
+        });  
+    </script>
+  </head>
+  <body>
+
+    <div id="header">
+        <a href="#" id="liteerp">LiteERP解决方案</a>
+        <ul id="menu">
+            <li><a href="/index.html#index">首页</a></li>
+            <li class="active"><a href="/index.html#articles">文章</a></li>
+            <li><a href="/index.html#download">下载</a></li>
+            <li><a href="/index.html#about">关于</a></li>
+        </ul>  
+    </div>
+    <div id="content">
+        <div id="content-left">
+            <div><a class="a-noclass"><h1>Java面试700问（一）</h1></a></div>
+            <div><span class="article-return"><a href="/html/news.html">返回</a></span><span class="article-writer"> 译者:叶文海（yewenhai@gmail.com）</span><span class="article-link">来源:<a target="_blank" href="http://ifeve.com/java-interview-questions-1/">Coding</a> &nbsp;&nbsp;原文:<a  title="原文地址" target="_blank" href="http://www.careerride.com/Java-Interview-Questions.aspx"></a></span></div>
+            <hr>
+            <div>
+            <p><strong>1、Java环境中的字节码是什么？</strong></p>
+<ul>
+<li>由Java 编译器生成的一种代码。</li>
+<li>由JVM生成的一种代码。</li>
+<li>Java源文件（Java Source File）的别名。</li>
+<li>一种写在类的实例方法中的代码。</li>
+</ul>
+<p>答案：由Java 编译器生成的一种代码。</p>
+<p><strong><span id="more-17103"></span>2、什么是Java垃圾回收机制？</strong></p>
+<ul>
+<li>操作系统周期性的删除系统中所有可用的Java文件.</li>
+<li>自动删除那些被程序引用但未被使用的包</li>
+<li>当一个对象的引用（references）不再存在，被这些对象占用的内存会被自动的回收。</li>
+<li>JVM检查所有Java应用的输出删除所有不在有意义的输出。</li>
+</ul>
+<p>答案：当一个对象的引用（references）不再存在，被这些对象占用的内存会被自动的回收。</p>
+<p>&nbsp;</p>
+<p><strong>Java小应用程序（Java Applet）跟Java应用程序（Java Application）有什么区别？</strong></p>
+<ul>
+<li>Java应用程序通常情况下是可以被信任的程序，而Java小应用程序不是。</li>
+<li>Java小应用程序必须在浏览器环境下执行。</li>
+<li>Java小应用程序无法访问计算机中的文件。</li>
+<li>以上所有都是。</li>
+</ul>
+<p>答案：以上所有都是。</p>
+<p><strong>3、在下面这段代码编译和执行的时候：<br />
+submarine.dive(depth);<br />
+下面哪个答案是正确的？</strong></p>
+<ul>
+<li>depth肯定是int类型。</li>
+<li>dive肯定是一个方法。</li>
+<li>dive肯定是实例变量的名字。</li>
+<li>submarine肯定是一个类名。</li>
+</ul>
+<p>答案：dive肯定是一个方法。</p>
+<p><strong>4、下面哪个关于匿名内部类的说法是正确的?</strong></p>
+<ul>
+<li>仅能继承一个类或实现一个接口。</li>
+<li>仅能继承一个类或实现多个接口。</li>
+<li>可以实现多个接口无论是否继承了其他类。</li>
+</ul>
+<p>答案：仅能继承一个类或实现一个接口。（译者注：给定的答案是”仅能继承一个类或实现多个接口。“，但经过测试发现匿名内部类无法实现多个接口，正确答案应该是”仅能继承一个类或实现一个接口“）</p>
+<p><strong>5、如果一个线程被定义为守护线程（daemon thread），那么它必须声明在下列哪个方法之前？</strong></p>
+<ul>
+<li>start方法。</li>
+<li>run方法。</li>
+<li>stop方法。</li>
+<li>以上都不是。</li>
+</ul>
+<p>答案：start方法。</p>
+<p><strong>6、在下列什么情况下你可能会使用Thread的yield方法？</strong></p>
+<ul>
+<li>在当前线程调用来使得其他线程拥有同样的或者更高的优先级去运行。</li>
+<li>在处于等待状态下的线程调用来使它能够运行。</li>
+<li>让一个线程拥有更高的运行优先级。</li>
+<li>在当前线程调用并传入一个参数表明让哪个线程可以运行。</li>
+</ul>
+<p>答案：在当前线程调用来使得其他线程拥有同样的或者更高的优先级去运行。</p>
+<p><strong>7、下面哪个是提示JVM进行垃圾回收的正确语法：</strong></p>
+<ul>
+<li>System.free();</li>
+<li>System.setGarbageCollection();</li>
+<li>System.out.gc();</li>
+<li>System.gc();</li>
+</ul>
+<p>答案：System.gc();</p>
+<p><strong>8、当子类中定义的方法与父类中定义的方法有同样的方法签名（译者注：方法名+方法参数列表），那么子类的方法是：</strong></p>
+<ul>
+<li>重载(Overloading )。</li>
+<li>重写（Overriding ）。</li>
+<li>包装（Packing ）。</li>
+<li>以上都不是。</li>
+</ul>
+<p>答案：重写（Overriding ）。</p>
+<p><strong>9、在AWT或Swing中，BoxLayout 布局管理器是如何对组件进行布局的？<br />
+1）从左至右<br />
+2）从上到下<br />
+3）从右到左<br />
+4）从下至上<br />
+</strong></p>
+<ul>
+<li>1。</li>
+<li>2。</li>
+<li>1和2。</li>
+<li>3和4。</li>
+</ul>
+<p>答案：1和2。</p>
+<p><strong>10、不能有子类的类是什么类：</strong></p>
+<ul>
+<li>抽象（abstract）。</li>
+<li>父类（parent class）。</li>
+<li>Final。</li>
+<li>以上都不是。</li>
+</ul>
+<p>答案：Final</p>
+<p><strong>11、Swing组件里面用到下面哪个设计模式：</strong></p>
+<ul>
+<li>MVC（Model view controller ）。</li>
+<li>事件委托（Event delegation model）。</li>
+<li>DOM（Document object model ）。</li>
+<li>网络模式（network model）。</li>
+</ul>
+<p>答案：MVC。</p>
+<p><strong>12、让多个线程同时作用到同一个对象上并且能保证结果的可靠性的机制叫做：</strong></p>
+<ul>
+<li>装箱（Boxing）。</li>
+<li>非同步（Unsynchronized ）。</li>
+<li>同步（synchronized）。</li>
+<li>以上都不是。</li>
+</ul>
+<p>答案：同步（synchronized）。</p>
+<p><strong>13、java.util package包下的所有集合类都实现的是不同的接口</strong></p>
+<ul>
+<li>正确。</li>
+<li>错误。</li>
+</ul>
+<p>答案：正确。</p>
+<p><strong>14、DeflaterOutputStream和InflaterInputStream在哪个包下面？</strong></p>
+<ul>
+<li>java.io。</li>
+<li>java.util。</li>
+<li>java.io.zip。</li>
+<li>java.util.zip。</li>
+</ul>
+<p>答案：java.util.zip。</p>
+<p><strong>15、把内存中对象存储到文件的技术是：</strong></p>
+<ul>
+<li>同步（synchronization ）。</li>
+<li>序列化（serialization ）。</li>
+<li>zip压缩。</li>
+<li>doping。</li>
+</ul>
+<p>答案：序列化（serialization ）。</p>
+<p><strong>16、静态（static）变量或瞬时（transient）变量不能被序列化</strong></p>
+<ul>
+<li>正确。</li>
+<li>错误。</li>
+</ul>
+<p>答案：正确。</p>
+<p><strong>17、javax.swing中的组件是用什么语言开发的：</strong></p>
+<ul>
+<li>C++。</li>
+<li>C。</li>
+<li>pascal。</li>
+<li>pure java。</li>
+</ul>
+<p>答案：pure java</p>
+<p><strong>18、FileOutputStream 读取的是什么类型的数据：</strong></p>
+<ul>
+<li>character。</li>
+<li>file。</li>
+<li>bytes。</li>
+<li>bit。</li>
+</ul>
+<p>答案：bytes。</p>
+<p><strong>19、Java中所有带缓冲机制的类的默认缓冲大小是多少？</strong></p>
+<ul>
+<li>128 bytes。</li>
+<li>256 bytes。</li>
+<li>512 bytes。</li>
+<li>1024 bytes。</li>
+</ul>
+<p>答案：512 bytes。</p>
+            </div>
+        </div>
+        <div id="content-right"></div>
+    </div>
+
+
+  </body>
+</html>
