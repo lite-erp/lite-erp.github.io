@@ -1,0 +1,201 @@
+
+.bar, #player-demo .volume .bar, #player-demo .progress-bar {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+  height: 2px;
+  width: 100px;
+  cursor: pointer;
+  background: white;
+  position: relative;
+}
+.bar .ui-slider-range, #player-demo .volume .bar .ui-slider-range, #player-demo .progress-bar .ui-slider-range {
+  height: 2px;
+  background: #ff6501;
+}
+.bar .ui-slider-handle, #player-demo .volume .bar .ui-slider-handle, #player-demo .progress-bar .ui-slider-handle {
+  height: 5px;
+  width: 5px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  position: absolute;
+  background: #ff6501;
+  top: -1.5px;
+}
+
+#player-demo {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+  *zoom: 1;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 1px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 1px;
+  box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 1px;
+  margin-bottom: 0px;
+  width: 100%;
+  background: #5bc0de;
+  position: relative;
+  padding-bottom: 3px;
+}
+#player-demo:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+#player-demo .fa {
+  color: white;
+}
+#player-demo .fa:hover {
+  color: #d6eff6;
+}
+#player-demo .opts {
+  padding-left: 12px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -17.5px;
+}
+#player-demo .opts > span {
+  cursor: pointer;
+}
+#player-demo .opts .ctrl {
+  display: -moz-inline-stack;
+  display: inline-block;
+  vertical-align: middle;
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  text-align: center;
+  border: 2px solid white;
+  padding-right: 1px;
+  padding-top: 1px;
+}
+#player-demo .opts .ctrl:hover {
+  background: #28a1c5;
+}
+#player-demo .opts .ctrl:hover i {
+  color: white;
+}
+#player-demo .opts .ctrl i {
+  font-size: 17px;
+  line-height: 29px;
+}
+#player-demo .opts .mode {
+  margin-left: 12px;
+}
+#player-demo .opts .mode i {
+  width: 1.2em;
+}
+#player-demo .volume {
+  position: absolute;
+  left: 140px;
+  top: 50%;
+  margin-top: -10px;
+}
+#player-demo .volume i {
+  width: 1.2em;
+  text-align: left;
+  color: #ff6501;
+  cursor: pointer;
+}
+#player-demo .volume i:hover {
+  color: #ff6501;
+}
+#player-demo .volume.mute .bar, #player-demo .volume.mute .bar, #player-demo .volume.mute .progress-bar {
+  background: #d6eff6;
+}
+#player-demo .avatar, #player-demo .avatar img {
+  display: inline;
+  float: right;
+  height: 50px;
+  width: 50px;
+  margin-top: 2px;
+}
+
+#player-demo .progress-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: white;
+}
+#player-demo .progress-bar, #player-demo .progress-bar .ui-slider-range {
+  height: 3px;
+}
+#player-demo .progress-bar.ui-state-disabled {
+  cursor: default;
+}
+#player-demo .progress-bar.ui-state-disabled .ui-slider-handle {
+  cursor: default;
+}
+
+
+#mp3body{
+	width: 100%;
+	height: 100%;
+}
+
+/**歌曲列表*/
+.mui-content>.mui-table-view:first-child{
+	margin-top: 0;
+}
+#lyricWrapper{
+	position: absolute;
+	top: 40px;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+#lyricContainer{
+	text-align: center;
+	position: absolute;
+	top: 80px;
+	left: 0;
+	bottom: 20px;
+	right: 0;
+}
+
+.linehiden{
+	display: none;
+}
+
+#lyricContainer {
+    position: relative;
+    top: 80px;
+    text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000; 
+}
+
+/*the highlight color of the current lyric line*/
+.current-line-0 {
+    color: #FAFA17;
+}
+.current-line-1 {
+    color: #ff1493;
+}
+.current-line-2 {
+    color: #adff2f;
+}
+.current-line-3 {
+    color: #c617e8;
+}
+.current-song, .current-song a {
+    color: #A6E22D;
+}
+
+

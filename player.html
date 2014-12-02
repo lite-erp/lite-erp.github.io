@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Player</title>
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <script type="text/javascript" src="js/jquery.min.js" ></script>
+    <script type="text/javascript" src="js/jquery-ui.js" ></script>
+    <script type="text/javascript" src="js/jquery.ui.slider.js" ></script>
+    <script type="text/javascript" src="js/player.js" ></script>
+    <script src="js/mui.min.js"></script>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/app.css" />
+    <script type="text/javascript" charset="utf-8">
+      	mui.init();
+    </script>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a id="left" class="mui-icon mui-icon-back mui-pull-left" style="color: #999;"></a>
+		<a id="info" class="mui-icon mui-icon-bars mui-pull-right" style="color: #999;"></a>
+		<h1 id="player-author" class="mui-title">Player</h1>
+	</header>
+	
+	<div id="mp3body" class="mui-content">
+		 <div id="lyricWrapper">
+            <div id="lyricContainer">
+            </div>
+        </div>
+	</div>
+	
+	<!--歌曲列表-->
+	<div id="player-list" class="mui-content">
+		<ul id="playlist" class="mui-table-view">
+		</ul>
+	</div>
+	
+
+<nav id="footernav" class="mui-bar mui-bar-tab">
+        <div id="player-demo">
+            <div class="player-widget">
+            	<div id="barp" class="progress-bar"></div>
+                <div class="opts">
+                    <span class="prev">
+                        <i class="fa fa-step-backward"></i>
+                    </span>
+                    <span class="ctrl">
+                        <i class="fa fa-play fa-2x"></i>
+                    </span>
+                    <span class="next">
+                        <i class="fa fa-step-forward"></i>
+                    </span>
+                    <span class="mode"><i class="fa fa-repeat"></i></span>
+                </div>
+                <div class="volume">
+                    <i class="fa fa-volume-down"></i><span class="bar"></span>
+                </div>
+                <a class="avatar" href="javascript:;">
+                    <!--<img alt="" src="images/default.jpg">-->
+                </a>
+            </div>
+        </div>
+</nav>
+
+ <script type="text/javascript" src="js/app.js" ></script>
+ <script type="text/javascript" src="js/play.js" ></script>
+</body>
+</html>

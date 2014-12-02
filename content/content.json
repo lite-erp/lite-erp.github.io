@@ -1,0 +1,9 @@
+{
+	"data":[
+		{"id":1,"name":"那个","artist":"文筱芮","song":"content/songs/na_ge.mp3","lrc":"content/songs/na_ge.lrc","cover":"content/images/bg.jpg"},
+		{"id":2,"name":"妳能听见吗","artist":"童可可","song":"content/songs/ni_neng_ting_jian_ma.mp3","lrc":"content/songs/ni_neng_ting_jian_ma.lrc","cover":"content/images/2.jpg"},
+		{"id":3,"name":"寻寻觅觅","artist":"Christine Welch","song":"content/songs/xun_xun_mi_mi.mp3","lrc":"content/songs/xun_xun_mi_mi.lrc","cover":"content/images/bg.jpg"},
+		{"id":4,"name":"人来人往","artist":"Eason Chan","song":"content/songs/ren_lai_ren_wang.mp3","lrc":"content/songs/ren_lai_ren_wang.lrc","cover":"content/images/2.jpg"},
+		{"id":5,"name":"公主的天堂","artist":"庭竹","song":"content/songs/gong_zhu_de_tian_tang.mp3","lrc":"content/songs/gong_zhu_de_tian_tang.lrc","cover":"content/images/bg.jpg"}
+	]
+}
